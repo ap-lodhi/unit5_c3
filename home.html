@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #nav{
+            display:flex;
+            
+            justify-content: space-evenly;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+            padding: 20px;
+            margin-top: 50px;
+
+            
+
+        }
+        #nav ,a{
+            color: teal;
+            font-size: 20px;
+            text-decoration: none;
+        }
+        table{
+            width:100%;
+            /* border: 1px solid red; */
+            margin-top: 50px;
+            text-align: center
+
+        }
+        #table{
+            width: 80%;
+            margin: auto;
+        }
+        th{
+            width: 19%;
+            
+            border: 1px solid orangered;
+        }
+       
+       
+    </style>
+</head>
+<body>
+    <div id="nav">
+        
+
+            <a href="home.html">HOME</a>
+            <a href="individual.html">Individual Brewery</a>
+            <a href="search.html"> SEARCH</a>
+     </div>
+     <div id="table">
+         <table  id="tbl">
+             <tr>
+                 <th>
+                     Name
+                 </th>
+                 <th>
+                    Type
+                </th>
+                <th>
+                    City
+                </th>
+                <th>
+                    State
+                </th>
+                <th> Detail</th>
+
+             </tr>
+         </table>
+     </div>
+     
+    
+</body>
+<script>
+    var api = 'https://api.openbrewerydb.org/breweries';
+    async function check(){
+        try{
+             var res  =  await fetch(api);
+             var data = await res.json();
+             console.log(data)
+            display(data)
+
+
+            
+        }catch{
+
+        }
+
+    }
+    check()
+    function display(data){
+        var  tb = document.getElementById('tbl');
+        data.forEach(el => {
+            var row = document.createElement('tr')
+            var tableData = document.createElement('td');
+            tableData.textContent= el.name;
+
+            var tableData1 = document.createElement('td');
+            tableData1.textContent= el.brewery_type;
+
+            var tableData2 = document.createElement('td');
+            tableData2.textContent= el.city;
+
+            var tableData3 = document.createElement('td');
+            tableData3.textContent= el.state;
+
+            var btn = document.createElement('a');
+            btn.textContent= "More Detail";
+            btn.addEventListener('click' , ()=>{
+                window.location.href="individual.html"
+                localStorage.setItem('id',el.id)
+            })
+
+            
+
+            row.append(tableData ,tableData1 ,tableData2, tableData3, btn)
+            tb.append(row)
+
+            
+        });
+    }
+</script>
+</html>

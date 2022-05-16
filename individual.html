@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #nav{
+            display:flex;
+            
+            justify-content: space-evenly;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+            padding: 20px;
+            margin-top: 50px;
+
+            
+
+        }
+        #nav ,a{
+            color: teal;
+            font-size: 20px;
+            text-decoration: none;
+        }
+       
+    </style>
+</head>
+<body>
+    <div id="nav">
+        
+
+        <a href="home.html">HOME</a>
+        <a href="individual.html">Individual Brewery</a>
+        <a href="search.html"> SEARCH</a>
+    </div>
+    <div id="card">
+
+    </div>
+</body>
+<script>
+
+var api = 'https://api.openbrewerydb.org/breweries';
+    async function check(){
+        try{
+             var res  =  await fetch(api);
+             var data = await res.json();
+             console.log(data)
+            display(data)
+     
+        }catch{
+
+        }
+
+    }
+    check()
+
+   var loData = localStorage.getItem('id')
+   function display(data){
+
+    var card =document.getElementById('card');
+       data.forEach(el => {
+
+           if(el.id === loData){
+               var box = document.createElement('div');
+               var name = document.createElement('p');
+               name.textContent=  `name: ${el.name}`;
+
+               var type = document.createElement('p');
+               type.textContent=`Type: ${el.brewery_type}`;
+              
+               var city = document.createElement('p');
+               city.textContent=    `City: ${el.city}`;
+             
+               var state = document.createElement('p');
+               state.textContent=`State: ${el.state} `;
+
+               box.append(name,type,city,state)
+               card.append(box)
+
+               
+           }
+           
+       });
+   }
+     
+
+</script>
+</html>
